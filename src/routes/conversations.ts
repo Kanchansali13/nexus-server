@@ -6,7 +6,15 @@ const router = Router();
 // Create a new conversation
 router.post("/", async (req, res) => {
   try {
-    const { userId, title } = req.body;
+    const { userId, title, email } = req.body;
+
+    // Ensure the user exists in our database, create if not
+    await prisma.user.upsert({
+      where: { id: userId },
+      update: {},
+      create: { id: userId, email: email || `${userId}@placeholder.com` },
+    });
+
     const conversation = await prisma.conversation.create({
       data: {
         userId,
