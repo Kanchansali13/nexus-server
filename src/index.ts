@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import conversationsRouter from "./routes/conversations";
 import messagesRouter from "./routes/messages";
 import chatRouter from "./routes/chat";
+import documentsRouter from "./routes/documents";
+import ragRouter from "./routes/rag";
 
 dotenv.config();
 
@@ -20,6 +22,8 @@ app.get("/api/health", (req, res) => {
 app.use("/api/conversations", conversationsRouter);
 app.use("/api/messages", messagesRouter);
 app.use("/api/chat", chatRouter);
+app.use("/api/documents", documentsRouter);
+app.use("/api/rag", ragRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

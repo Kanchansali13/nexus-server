@@ -38,3 +38,20 @@ model Message {
   content        String
   createdAt      DateTime     @default(now())
 }
+
+model Document {
+  id        String   @id @default(uuid())
+  userId    String
+  filename  String
+  createdAt DateTime @default(now())
+  chunks    Chunk[]
+}
+
+model Chunk {
+  id         String   @id @default(uuid())
+  documentId String
+  document   Document @relation(fields: [documentId], references: [id])
+  content    String
+  embedding  String
+  createdAt  DateTime @default(now())
+}
