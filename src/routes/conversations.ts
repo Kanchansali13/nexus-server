@@ -61,4 +61,20 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// Update a conversation's title
+router.patch("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title } = req.body;
+    const conversation = await prisma.conversation.update({
+      where: { id },
+      data: { title },
+    });
+    res.json(conversation);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to update conversation" });
+  }
+});
+
 export default router;
