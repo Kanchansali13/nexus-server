@@ -55,10 +55,15 @@ Question: ${question}`;
       answer: response.text ?? "",
       sources: topChunks.map((c) => c.document.filename),
     });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to answer question" });
+  } catch (error: any) {
+  console.error(error);
+  if (error?.status === 429 || error?.status === 503) {
+    return res.status(429).json({
+      error: "Daily AI usage limit reached. Please try again later.",
+    });
   }
+  res.status(500).json({ error: "Failed to get AI response" });
+}
 });
 
 export default router;
